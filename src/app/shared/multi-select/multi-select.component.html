@@ -5,7 +5,7 @@
     <ngx-mat-select-search formControlName="{{controlName}}" [noEntriesFoundLabel]="'noresult' | translate" [placeholderLabel]="'Mamed'" (input)="filterSelection($event.target)"></ngx-mat-select-search>
     </mat-option>
     <mat-option *ngFor="let user of users" [value]="user.id">
-      {{user.username}} ({{user.isDriver ? 'Kierowca' : 'Użytkownik'}})
+      {{user.userCredentials.username}} ({{user.isDriver ? 'Kierowca' : 'Użytkownik'}})
     </mat-option>
   </mat-select>
 

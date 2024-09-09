@@ -8,6 +8,7 @@ import {Event} from "../models/event";
 import {Availability} from "../components/availability/model/Availability";
 import {Password} from "../models/password";
 import {ResponseMessage} from "../models/response-message";
+import {parseDate} from "../shared/autocomplete/DateUtils";
 
 @Injectable({
   providedIn: 'root'

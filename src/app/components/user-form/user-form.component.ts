@@ -82,7 +82,7 @@ export class UserFormComponent implements OnInit,AfterViewInit{
         username: user.username,
         isDriver: user.isDriver,
         dateOfBirth: user.dateOfBirth,
-        roles: user.roles?.map(value => value.name),
+        roles: user.definedRoles?.map(value => value.name),
         phoneNumber: user.phoneNumber,
         editPassword: [false],
       });

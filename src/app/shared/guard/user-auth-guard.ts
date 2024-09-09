@@ -8,7 +8,6 @@ import {
 } from "@angular/router";
 import {JwtService} from "../../services/jwt.service";
 import {Injectable} from "@angular/core";
-import {RoleEnum} from "../../models/role.enum";
 
 @Injectable()
 export class UserAuthGuard implements CanActivate {
@@ -18,7 +17,7 @@ export class UserAuthGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): MaybeAsync<GuardResult> {
 
     if (!this.jwtService.isLoggedIn()) {
-      return this.router.navigate(["/login"])
+      return this.router.navigate(["/login"]);
     }else if(!this.jwtService.isUser()){
       return this.router.navigate(["/"])
     }

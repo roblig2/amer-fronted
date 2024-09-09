@@ -10,13 +10,19 @@ export interface User {
   id: string;
   firstName:string;
   lastName:string;
-  username: string;
-  password?: string;
+  username?:string;
+  userCredentials: UserCredentials
+  definedRoles:Role[];
   isDriver: boolean;
   dateOfBirth:Date;
   availableDates: UserDate[];
-  roles: Role[];
+  password?: string;
   phoneNumber: string;
   complaints?:string;
   events?:{ name:string, date:Date ,isEvent:boolean;}[];
+}
+export interface UserCredentials {
+  roles: Role[];
+  password?: string;
+  username: string;
 }

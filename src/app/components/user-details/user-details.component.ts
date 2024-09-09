@@ -79,7 +79,6 @@ export class UserDetailsComponent {
         lastName: user.lastName,
         mail: user.username,
         driver: this.getDriverInput(user.isDriver),
-        roles: user.roles,
         phoneNumber: user.phoneNumber
       })
       },

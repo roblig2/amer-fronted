@@ -26,6 +26,9 @@ export class LoginFormComponent implements OnInit{
   constructor(private formBuilder:FormBuilder,private loginService:LoginService,private jwtService:JwtService,private router:Router) {
   }
   ngOnInit(){
+    if(this.jwtService.isLoggedIn()){
+      this.router.navigate(["/"])
+    }
     this.formGroup = this.formBuilder.group({
       username:['',[Validators.required,Validators.email]],
       password:['',Validators.required]

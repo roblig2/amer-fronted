@@ -4,12 +4,39 @@ import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { Moment } from 'moment';
 import * as moment from 'moment';
 import {MAT_DATE_LOCALE} from "@angular/material/core";
+import {DAYS, MONTHS} from "./custom-date-adapter";
 
 @Injectable()
 export class CustomMomentDateAdapter extends MomentDateAdapter {
 
   constructor(@Optional() @Inject(MAT_DATE_LOCALE) dateLocale: string) {
     super(dateLocale);
+  }
+
+  override getFirstDayOfWeek(): number {
+    return 1;
+  }
+
+  override getMonthNames(style: 'long' | 'short' | 'narrow'): string[] {
+    return MONTHS[style];
+  }
+  override getDayOfWeekNames(style: 'long' | 'short' | 'narrow'): string[] {
+    return DAYS[style]
+  }
+  // Nadpisanie formatowania wyświetlania daty, w tym wybranego miesiąca w nagłówku
+  override format(date: Moment, displayFormat: string): string {
+
+    if (displayFormat === 'MMM YYYY') {
+      // Wyświetlanie miesiąca i roku w nagłówku
+      const month = date.month();
+      const year = date.year();
+      return `${MONTHS['long'][month]} ${year}`;
+    } else if (displayFormat === 'DD.MM.YYYY') {
+      return super.format(date, displayFormat)
+    }
+    else {
+      return super.format(date, displayFormat)
+    }
   }
 
   override createDate(year: number, month: number, date: number): Moment {

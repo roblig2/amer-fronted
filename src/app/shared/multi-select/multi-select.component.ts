@@ -254,7 +254,7 @@ export class MultiSelectComponent implements OnInit {
     const filterValue = searchValue?.value ? searchValue?.value.toLowerCase() : null;
     if (filterValue || filterValue === '') {
 
-      let users1 = this.users?.filter(user => user.username.toLowerCase().includes(filterValue));
+      let users1 = this.users?.filter(user => user.userCredentials?.username.toLowerCase().includes(filterValue));
 
       this.users = users1 && users1.length > 0 ? users1 : null;
     } else {

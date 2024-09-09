@@ -38,7 +38,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 })
 export class UserAvailabilityListComponent{
   @ViewChild(MatPaginator) paginator?: MatPaginator;
-  events = signal<Pageable<Availability>>({content:[],page:{totalElements:0,size:0,totalPages:0,number:0}});
+  events = signal<Pageable<Availability>>({content:[],totalElements:0,pageable:{size:0,totalPages:0,number:0}});
   pageSize = 10;
   currentPage = 0;
   sort:Sort = {active:'date',direction:"asc"}
@@ -77,7 +77,7 @@ export class UserAvailabilityListComponent{
     // this.events$ = this.eventService.getAllEvents(this.paginator?.pageIndex ? this.paginator.pageIndex : 0, this.paginator?.pageSize ? this.paginator.pageSize : 50, filters);
     this.userService.getAvailability(this.currentPage ? this.currentPage : 0, this.pageSize ? this.pageSize : 20, filters)
       .subscribe(value => {
-        this.totalElements.set(value.page.totalElements);
+        this.totalElements.set(value.totalElements);
         this.events.set(value);
         this.tableData = value.content;
       });

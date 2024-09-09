@@ -41,7 +41,7 @@ import {User} from "../../models/user";
 })
 export class MyEventsComponent {
   @ViewChild(MatPaginator) paginator?: MatPaginator;
-  events = signal<Pageable<Event>>({content: [], page: {totalElements: 0, size: 0, totalPages: 0, number: 0}});
+  events = signal<Pageable<Event>>({content: [],totalElements:0 ,pageable: {size: 0, totalPages: 0, number: 0}});
   user = signal<User | null>(null);
 
   pageSize = 10;
@@ -132,7 +132,7 @@ export class MyEventsComponent {
     // this.events$ = this.eventService.getAllEvents(this.paginator?.pageIndex ? this.paginator.pageIndex : 0, this.paginator?.pageSize ? this.paginator.pageSize : 50, filters);
     this.eventService.getUserEvents(this.currentPage ? this.currentPage : 0, this.pageSize ? this.pageSize : 20, filters)
       .subscribe(value => {
-        this.totalElements.set(value.page.totalElements);
+        this.totalElements.set(value.totalElements);
         this.events.set(value);
         this.tableData = value.content;
       });
@@ -159,7 +159,7 @@ export class MyEventsComponent {
 
   private bookedPeople(element: Record<string, any>) {
     if (this.isntEnoughPeople(element)) {
-      return `${element['availableUsers']?.length != null ? element['availableUsers']?.length : 0} < ${element['requiredDrivers']}`;
+      return `${element['availableUsers']?.length != null ? element['availableUsers']?.length : 0} < ${element['requiredUsers']}`;
     } else {
       return `${element['availableUsers']?.length != null ? element['availableUsers']?.length : 0}`;
     }
@@ -168,7 +168,7 @@ export class MyEventsComponent {
   private isntEnoughPeople(element: any) {
     // return false;
     let assignedUsers: number = element['availableUsers']?.length != null ? element['availableUsers']?.length : 0;
-    let requiredUsers = +element['requiredDrivers'];
+    let requiredUsers = +element['requiredUsers'];
 
     return assignedUsers < requiredUsers
   }

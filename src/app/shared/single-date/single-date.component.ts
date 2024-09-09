@@ -45,7 +45,7 @@ export class SingleDateComponent implements OnInit,OnChanges,AfterViewInit{
   }
   @Input()
   minDate: Date = new Date();
-  dateFormat: string = 'MM/DD/YYYY';
+  dateFormat: string = 'DD.MM.YYYY';
   @Input()
   label?: string
   @Input()

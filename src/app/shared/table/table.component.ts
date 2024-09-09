@@ -31,7 +31,7 @@ export class TableComponent<T> implements OnInit,AfterViewInit{
   @Input() url:string ="";
   @Input() tableColumns: Array<Column> = [];
 
-  @Input() tableData: Pageable<T> = {content:[],page:{totalElements:0,size:0,totalPages:0,number:0}};
+  @Input() tableData: Pageable<T> = {content:[],totalElements:0,pageable:{size:0,totalPages:0,number:0}};
 
   @Output() pageChange = new EventEmitter;
   @Output() sortChange = new EventEmitter;

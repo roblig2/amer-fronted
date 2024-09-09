@@ -40,7 +40,7 @@ export class DatesFromToComponent implements OnInit {
   isRequired = false;
   maxDate: Date = new Date();
   minDate: Date = new Date();
-  dateFormat: string = 'MM/DD/YYYY';
+  dateFormat: string = 'DD.MM.YYYY';
 
   constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef) {
 

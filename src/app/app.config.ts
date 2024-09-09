@@ -10,6 +10,8 @@ import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {loggingInterceptor} from "./shared/interceptor/error.interceptor";
 import {UserAuthGuard} from "./shared/guard/user-auth-guard";
+import {CUSTOM_DATE_FORMATS, CustomDateAdapter} from "./shared/custom-date-adapter";
+import {DateAdapter, MAT_DATE_FORMATS} from "@angular/material/core";
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -20,7 +22,8 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({eventCoalescing: true}),
     provideRouter(routes),
     provideHttpClient(withInterceptors([jwtInterceptor,loggingInterceptor])),
-
+    { provide: MAT_DATE_FORMATS, useValue: CUSTOM_DATE_FORMATS },
+    {provide: DateAdapter, useClass: CustomDateAdapter},
     AdminAuthGuard,
     UserAuthGuard,
     provideAnimationsAsync(),

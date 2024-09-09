@@ -37,8 +37,8 @@ import {ErrorDialogComponent} from "../../shared/error-dialog/error-dialog.compo
 })
 export class UserListComponent {
   @ViewChild(MatPaginator) paginator?: MatPaginator;
-  events = signal<Pageable<User>>({content:[],page:{totalElements:0,size:0,totalPages:0,number:0}});
-  pageSize = 10;
+  events = signal<Pageable<User>>({content:[],totalElements:0,pageable:{size:0,totalPages:0,number:0}});
+  pageSize = 5;
   currentPage = 0;
   sort:Sort = {active:'lastName',direction:"asc"}
   displayedColumns: string[] = ['name', 'date', 'requiredDrivers','assignedUserIds','requiredUsers'];
@@ -83,7 +83,7 @@ export class UserListComponent {
     // this.events$ = this.eventService.getAllEvents(this.paginator?.pageIndex ? this.paginator.pageIndex : 0, this.paginator?.pageSize ? this.paginator.pageSize : 50, filters);
     this.userService.getUsers(this.currentPage ? this.currentPage : 0, this.pageSize ? this.pageSize : 20, filters)
       .subscribe(value => {
-        this.totalElements.set(value.page.totalElements);
+        this.totalElements.set(value.totalElements);
         this.events.set(value);
         this.tableData = value.content;
       });

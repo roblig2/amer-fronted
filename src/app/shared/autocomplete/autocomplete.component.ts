@@ -76,7 +76,7 @@ export class AutocompleteComponent implements OnChanges{
 
     if(user?.firstName !=null){
 
-      console.log(user.firstName === 'Robert' ? user.isDriver : "aaaaaa")
+      // console.log(user.firstName === 'Robert' ? user.isDriver : "aaaaaa")
       return user.firstName + " " + user.lastName + " " + (user.isDriver ? "\u{1F697}" : "");
     }
     return '';
@@ -104,7 +104,7 @@ export class AutocompleteComponent implements OnChanges{
       this.openComplaintDialog(complaintData, user);
     }
 
-    if (user.availableDates.length>0 && user.availableDates[0].remark && user.availableDates[0].remark != "" ) {
+    else if (user.availableDates.length>0 && user.availableDates[0].remark && user.availableDates[0].remark != "" ) {
       complaintData.message = user.availableDates[0].remark;
       this.openComplaintDialog(complaintData, user);
     } else {

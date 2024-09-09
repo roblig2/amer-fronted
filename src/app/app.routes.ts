@@ -38,7 +38,7 @@ export const routes: Routes = [
     canActivate: [UserAuthGuard]
   },
   {
-    path: 'availabilityToWork',
+    path: 'home',
     loadComponent: () => WorkdayFormComponent,
     canActivate: [UserAuthGuard]
   },
@@ -88,7 +88,7 @@ export const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: '/availabilityToWork',
+    redirectTo: '/home',
     pathMatch: 'full'
   },
   {

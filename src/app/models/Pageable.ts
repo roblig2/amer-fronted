@@ -1,9 +1,10 @@
 export interface Pageable<T> {
   content: T[];
-  page: Page
+  pageable: Page
+  totalElements: number;
 }
 interface Page{
-  totalElements: number;
+
   size: number;
   number: number;
   totalPages:number

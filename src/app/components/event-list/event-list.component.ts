@@ -34,7 +34,7 @@ import {HeaderComponent} from "../../header/header.component";
 })
 export class EventListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator?: MatPaginator;
-  events = signal<Pageable<Event>>({content:[],page:{totalElements:0,size:0,totalPages:0,number:0}});
+  events = signal<Pageable<Event>>({content:[],totalElements:0,pageable:{size:0,totalPages:0,number:0}});
   pageSize = 10;
   currentPage = 0;
   sort:Sort = {active:'date',direction:"asc"}
@@ -76,13 +76,16 @@ export class EventListComponent implements OnInit {
 
   loadEventsPage() {
 
+    if(this.filterForm.controls['isMissingPeople']?.value === false){
+      this.filterForm.controls['isMissingPeople']?.patchValue(null);
+    }
     const filters = this.filterForm.value;
     filters.sortOrder = this.sort.direction.toUpperCase();
     filters.sortBy = this.sort.active;
     // this.events$ = this.eventService.getAllEvents(this.paginator?.pageIndex ? this.paginator.pageIndex : 0, this.paginator?.pageSize ? this.paginator.pageSize : 50, filters);
     this.eventService.getEvents(this.currentPage ? this.currentPage : 0, this.pageSize ? this.pageSize : 20, filters)
       .subscribe(value => {
-        this.totalElements.set(value.page.totalElements);
+        this.totalElements.set(value.totalElements);
         this.events.set(value);
         this.tableData = value.content;
       });
@@ -108,16 +111,16 @@ export class EventListComponent implements OnInit {
 
   private bookedPeople(element: Record<string, any>) {
     if (this.isntEnoughPeople(element)) {
-      return `${element['assignedUsers']?.length != null ? element['assignedUsers']?.length : 0} < ${element['requiredDrivers']}`;
+      return `${element['availableUsers']?.length != null ? element['availableUsers']?.length : 0} < ${element['requiredUsers']}`;
     }else{
-      return `${element['assignedUsers']?.length != null ? element['assignedUsers']?.length : 0}`;
+      return `${element['availableUsers']?.length != null ? element['availableUsers']?.length : 0}`;
     }
   }
 
   private isntEnoughPeople(element: any) {
     // return false;
-    let assignedUsers:number = element['assignedUsers']?.length != null ? element['assignedUsers']?.length : 0;
-    let requiredUsers = +element['requiredDrivers'];
+    let assignedUsers:number = element['availableUsers']?.length != null ? element['availableUsers']?.length : 0;
+    let requiredUsers = +element['requiredUsers'];
 
     return assignedUsers < requiredUsers
   }

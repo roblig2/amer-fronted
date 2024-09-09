@@ -17,6 +17,7 @@ import {HeaderComponent} from "../header/header.component"
 import {NgxMaterialTimepickerModule} from "ngx-material-timepicker";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AutocompleteComponent} from "../shared/autocomplete/autocomplete.component";
+import {parseDate} from "../shared/autocomplete/DateUtils";
 
 @Component({
   selector: 'app-admin',
@@ -95,7 +96,8 @@ export class EventFormComponent implements OnInit {
         id:event.id,
         name: event.name,
         location: event.location,
-        date:event.date,
+        date: parseDate(event.date.toString()),
+        datePacking: parseDate(event.datePacking.toString()),
         eventTime: event.eventTime,
         requiredUsers: event.requiredUsers,
         packingTime: event.packingTime,
@@ -105,7 +107,6 @@ export class EventFormComponent implements OnInit {
         editDate:false,
         editDatePacking:false
       });
-
       this.bookedUsers.set(event.availableUsers ? event.availableUsers : []);
       this.bookedPackingUsers.set(event.availablePackingUsers ? event.availablePackingUsers : []);
       this.loadAvailableUsers(this.eventForm.controls['date']?.value);
@@ -119,6 +120,7 @@ export class EventFormComponent implements OnInit {
 
   onSubmit() {
     if (this.eventForm.valid) {
+      this.replaceEmptyFieldsWithNull();
       if (this.isEdit) {
         this.editEvent();
       } else {
@@ -126,7 +128,18 @@ export class EventFormComponent implements OnInit {
       }
     }
   }
+  replaceEmptyFieldsWithNull() {
+    const formValues = this.eventForm.value;
+
+    Object.keys(formValues).forEach(key => {
+      if (formValues[key] === "") {
+        this.eventForm.get(key)?.setValue(null);
+      }
+    });
+  }
   createEvent() {
+    // //todo usunięcie pustych elementów formularza
+    // this.eventForm.controls['id']?.patchValue(null);
     this.eventService.createEvent(this.eventForm.value).subscribe(event => {
       this.ngOnInit();
       Object.keys(this.eventForm.controls).forEach(key => {
@@ -157,7 +170,6 @@ export class EventFormComponent implements OnInit {
 
   getAvailableUsers(event: MatDatepickerInputEvent<any, any>) {
     this.bookedUsers.set([]);
-
     this.userService.getUsersByDate(new Date(event.target.value)).pipe(tap(value => {
       this.usersForEvent.set(value);
     })).subscribe();
@@ -170,6 +182,9 @@ export class EventFormComponent implements OnInit {
   }
 
   private loadAvailableUsers(date: Date) {
+    if(date.getHours() == 0){
+      date.setHours(2);
+    }
     this.userService.getUsersByDate(new Date(date)).pipe(tap(value => {
       this.usersForEvent.set(value);
     })).subscribe();
